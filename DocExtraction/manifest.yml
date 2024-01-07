@@ -1,0 +1,15 @@
+---
+applications:
+- name: A_spacy_flask_WS
+  timeout: 300
+  host: scp_ml_service
+  memory: 2048MB
+  disk_quota: 5000MB
+  random-route: true
+  buildpacks:
+    - python_buildpack
+    - https://github.com/cloudfoundry/java-buildpack.git
+  env:
+    GITHUB_TOKEN: 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
+    JBP_CONFIG_OPEN_JDK: '{ jre: { version: 11.+ }, memory_calculator: { stack_threads: 20m } }'
+    JAVA_OPTS: '-Djava.awt.headless=true'

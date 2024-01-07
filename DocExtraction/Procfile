@@ -1,0 +1,2 @@
+web: java $JAVA_OPTS -jar tika-app-2.9.1.jar
+web: python A_spacy_flask_WS.py
