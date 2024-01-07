@@ -1,3 +1,4 @@
+import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.sax.BodyContentHandler;
@@ -5,6 +6,7 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+import org.apache.tika.metadata.Metadata;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PdfParser {
+public class App {
 
     public static Map<Integer, String> extractAndStoreSections(String pdfPath) throws IOException, SAXException, TikaException {
         Map<Integer, String> textBlocksMap = new HashMap<>();
@@ -20,7 +22,7 @@ public class PdfParser {
         // Create a parser
         Parser parser = new AutoDetectParser();
         Metadata metadata = new Metadata();
-        ContentHandler handler = new BodyContentHandler(-1); // -1 for no write limit
+        ContentHandler handler = new BodyContentHandler();
 
         // Parse the PDF
         try (InputStream stream = new FileInputStream(pdfPath)) {
@@ -43,11 +45,12 @@ public class PdfParser {
 
     public static void main(String[] args) {
         try {
-            Map<Integer, String> sections = extractAndStoreSections("path/to/your/pdf.pdf");
+            Map<Integer, String> sections = extractAndStoreSections("C:\\Users\\H368246\\python_workspace\\hon-hackathon\\DocExtraction\\20221216105441_PURCHASE+ORDER+75450989.PDF");
             // Print sections or do something with them
             sections.forEach((key, value) -> System.out.println(key + ": " + value));
-        } catch (IOException | SAXException | TikaException e) {
+        } catch (IOException | SAXException e) {
             e.printStackTrace();
         }
     }
+
 }
