@@ -7,6 +7,7 @@ from A_spacy_functions import extract_and_store_sections, dict_to_xml
 
 A_spacy_flask_WS = Flask(__name__)
 
+
 # Define a route for the POST method
 @A_spacy_flask_WS.route('/DocExtractionPOC', methods=['POST'])
 def process_pdf():
