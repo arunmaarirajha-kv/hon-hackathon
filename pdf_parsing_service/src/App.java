@@ -44,12 +44,16 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            Map<Integer, String> sections = extractAndStoreSections("C:\\Users\\H368246\\python_workspace\\hon-hackathon\\DocExtraction\\20221216105441_PURCHASE+ORDER+75450989.PDF");
+            Map<Integer, String> sections = extractAndStoreSections("C:\\Users\\H368246\\python_workspace\\hon-hackathon\\document_entity_recognition_service\\20221216105441_PURCHASE+ORDER+75450989.PDF");
             // Print sections or do something with them
             sections.forEach((key, value) -> System.out.println(key + ": " + value));
-        } catch (IOException | SAXException e) {
-            e.printStackTrace();
-        }
+        } catch (TikaException e) {
+            e.printStackTrace(); // Or handle the exception as needed
+        } catch (Exception e) {
+            e.printStackTrace(); // To catch other exceptions
+        }        
+        System.out.println("alpha");
+
     }
 
 }
