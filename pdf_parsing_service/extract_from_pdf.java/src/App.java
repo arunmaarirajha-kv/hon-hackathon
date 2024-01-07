@@ -6,7 +6,6 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.apache.tika.metadata.Metadata;
 
 import java.io.FileInputStream;
 import java.io.IOException;
