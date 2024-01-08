@@ -1,59 +1,38 @@
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.sax.BodyContentHandler;
 import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.xml.sax.ContentHandler;
+import org.apache.tika.parser.pdf.PDFParser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class App {
-
-    public static Map<Integer, String> extractAndStoreSections(String pdfPath) throws IOException, SAXException, TikaException {
-        Map<Integer, String> textBlocksMap = new HashMap<>();
-
-        // Create a parser
-        Parser parser = new AutoDetectParser();
-        Metadata metadata = new Metadata();
-        ContentHandler handler = new BodyContentHandler();
-
-        // Parse the PDF
-        try (InputStream stream = new FileInputStream(pdfPath)) {
-            parser.parse(stream, handler, metadata, new ParseContext());
-        }
-
-        // Retrieve content as a single String
-        String content = handler.toString();
-
-        // Split the content into text blocks
-        String[] textBlocks = content.split("\n\n");
-
-        // Store each text block in the map
-        for (int i = 0; i < textBlocks.length; i++) {
-            textBlocksMap.put(i + 1, textBlocks[i].trim());
-        }
-
-        return textBlocksMap;
-    }
-
     public static void main(String[] args) {
-        try {
-            Map<Integer, String> sections = extractAndStoreSections("C:\\Users\\H368246\\python_workspace\\hon-hackathon\\document_entity_recognition_service\\20221216105441_PURCHASE+ORDER+75450989.PDF");
-            // Print sections or do something with them
-            sections.forEach((key, value) -> System.out.println(key + ": " + value));
-        } catch (TikaException e) {
-            e.printStackTrace(); // Or handle the exception as needed
-        } catch (Exception e) {
-            e.printStackTrace(); // To catch other exceptions
-        }        
-        System.out.println("alpha");
+        // Path to the PDF file
+        String pdfFilePath = "20221216105441_PURCHASE+ORDER+75450989.PDF";
 
+        // Create a content handler
+        BodyContentHandler handler = new BodyContentHandler(); // -1 for no limit on the text extraction
+
+        // Create metadata and parse context instances
+        Metadata metadata = new Metadata();
+        ParseContext pContext = new ParseContext();
+
+        // PDF Parser
+        PDFParser pdfParser = new PDFParser();
+
+        try (FileInputStream inputStream = new FileInputStream(new File(pdfFilePath))) {
+            // Parsing the document
+            pdfParser.parse(inputStream, handler, metadata, pContext);
+            // Extracted content as a string
+            String extractedContent = handler.toString();
+            System.out.println("Extracted Content: \n" + extractedContent);
+        } catch (IOException | TikaException | SAXException e) {
+            e.printStackTrace();
+        }
     }
-
 }
+
